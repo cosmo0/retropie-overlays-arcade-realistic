@@ -68,10 +68,10 @@ var templateOverlay = fs.readFileSync('src/template-overlay.cfg', { encoding: 'u
 
 // whether to overwrite existing files
 var overwrite = "x";
-while (overwrite.toLowerCase() != "y" && overwrite.toLowerCase() != "n") {
+while (overwrite.toLowerCase() !== "y" && overwrite.toLowerCase() !== "n") {
     overwrite = readlineSync.question('Do you wish to overwrite existing files ? (y/n): ');
 }
-overwrite = (overwrite == "y");
+overwrite = overwrite === "y";
 
 // get existing artworks
 var files = fs.readdirSync(source);
