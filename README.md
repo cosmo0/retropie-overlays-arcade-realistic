@@ -1,8 +1,8 @@
-# Retropie arcade overlays pack
+# Retropie realistic arcade overlays pack
 
 Overlays (or bezels) are images added "above" the emulator, to mask the black borders around the image.
 
-This pack adds overlays for arcade games.
+This pack adds realistic overlays for arcade games.
 
 **Usage of the pack in a commercial product is strictly forbidden.**
 
