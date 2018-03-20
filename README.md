@@ -13,7 +13,7 @@ I did mostly nothing except move files around and mess with config files. If you
 
 If one of your file is here and you want me to remove it, or want to be credited, please [file an issue](https://github.com/cosmo0/retropie-arcade-overlays/issues).
 
-## [Realistic overlays](overlays-realistic/) (540 games)
+## [Realistic overlays](overlays-realistic/) (554 games)
 
 Compilation of "realistic looking" arcade overlays for many games.
 
