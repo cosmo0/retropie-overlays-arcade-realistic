@@ -17,8 +17,8 @@ for (let pack of packs) {
     console.log('========== PACK %s ==========', pack);
 
     let templateRom = fs.readFileSync('src/template-game.cfg', { encoding: 'utf-8' });
-    let romsFolder = path.join(pack, 'roms');
-    let overlaysFolder = path.join(pack, 'configs/all/retroarch/overlay/arcade');
+    let romsFolder = pack;
+    let overlaysFolder = path.join(pack, 'overlays');
 
     let usedOverlays = [];
 
