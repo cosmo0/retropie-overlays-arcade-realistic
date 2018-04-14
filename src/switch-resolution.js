@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const roms = "overlays-realistic/roms";
+const roms = "overlays/";
 
 const ratio = (1080 / 720);
 
@@ -40,9 +40,9 @@ for (let i = 0; i < files.length; i++) {
 
         // ensure orientation is ok
         if (width > height) {
-            conf = conf.replace('common_arcade_v', 'common_arcade_h');
+            conf = conf.replace('vertical', 'horizontal');
         } else {
-            conf = conf.replace('common_arcade_h', 'common_arcade_v');
+            conf = conf.replace('horizontal', 'vertical');
         }
 
         fs.writeFileSync(path.join(roms, f), conf);

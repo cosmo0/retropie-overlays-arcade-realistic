@@ -30,7 +30,7 @@ var source = "tmp/source/";
 * These files define the screen position and the overlay config to use,
 * among other things.
 */
-var outputRom = "tmp/output/roms/";
+var outputRom = "tmp/output/";
 
 /*
 * Output folder for the overlay config and image.
@@ -127,7 +127,7 @@ files.forEach(function(file) {
         var screenPos = view.screen[0].bounds[0].$;
 
         // compute orientation
-        var orientation = parseInt(screenPos.width) > parseInt(screenPos.height) ? "h" : "v";
+        var orientation = parseInt(screenPos.width) > parseInt(screenPos.height) ? "horizontal" : "vertical";
         console.log(game + ' orientation: ' + orientation);
 
         // extract the bezel image
