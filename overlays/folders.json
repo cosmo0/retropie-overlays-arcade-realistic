@@ -1,6 +1,0 @@
-{
-    "roms": "roms",
-    "overlays": { "src": "configs/all/retroarch/overlay/arcade", "dest": "all/retroarch/overlay/arcade" },
-    "common": { "src": "configs/all/retroarch/overlay_cfg", "dest": "all/retroarch/overlay_cfg" },
-    "shaders": { "src": "configs/all/retroarch/shaders", "dest": "all/retroarch/shaders" }
-}
