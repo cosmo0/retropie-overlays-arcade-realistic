@@ -1,12 +1,20 @@
+var fs = require('fs-extra');
+var path = require('path');
 
-/*
+var readlineSync = require('readline-sync');
+var xml2js = require('xml2js');
+var sharp = require('sharp');
+var admzip = require('adm-zip');
+var imagemin = require('imagemin');
+
+/**************************************************
 * MAME ARTWORK PACK IMPORTER
 *
 * Usage:
 * - edit the variables below: source, outputRom, outputOvl to the proper paths
-* - run with "node _importer/import-mame.js"
+* - run with "node src/import-mame.js"
 * - fix the rom configs/positions manually for each rom file
-*/
+***************************************************/
 
 /*******************
 * DEFINE PATHS
@@ -30,26 +38,14 @@ var source = "tmp/source/";
 * These files define the screen position and the overlay config to use,
 * among other things.
 */
-var outputRom = "tmp/output/";
+var outputRom = "tmp/output/roms";
+fs.ensureDirSync(outputRom);
 
 /*
 * Output folder for the overlay config and image.
 */
 var outputOvl = "tmp/output/overlay";
-
-
-/*******************
-* NODEJS IMPORTS
-********************/
-
-var fs = require('fs');
-var path = require('path');
-
-var readlineSync = require('readline-sync');
-var xml2js = require('xml2js');
-var sharp = require('sharp');
-var admzip = require('adm-zip');
-var imagemin = require('imagemin');
+fs.ensureDirSync(outputOvl);
 
 /*******************
 * Initialize objects
