@@ -55,6 +55,12 @@ for (let romFile of romsFiles) {
             readlineSync.keyInPause();
         }
     }
+
+    // set resolution if it's not
+    if (cfgContent.indexOf('video_fullscreen_x') < 0 && cfgContent.indexOf('#include ') < 0) {
+        cfgContent += '\n\nvideo_fullscreen_x = 1920\nvideo_fullscreen_y = 1080';
+        fs.writeFileSync(path.join(romsFolder, romFile), cfgContent);
+    }
 }
 
 console.log('%i roms processed', romsFiles.length);
