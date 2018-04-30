@@ -38,6 +38,23 @@ for (let romFile of romsFiles) {
         console.log('> Overlay %s for rom %s does not exist', packOverlayFile, romFile);
         readlineSync.keyInPause();
     }
+
+    // check screen positions
+    if (/custom_viewport_width[\s]*=[\s]*"?([\d]+)"?/igm.exec(cfgContent) === null) {
+        if (cfgContent.indexOf('video_scale_integer = true') < 0) {
+            console.log('> Rom %s has no set size', romFile);
+            readlineSync.keyInPause();
+        }
+    } else {
+        let width = parseInt(/custom_viewport_width[\s]*=[\s]*"?([\d]+)"?/igm.exec(cfgContent)[1]);
+        let height = parseInt(/custom_viewport_height[\s]*=[\s]*"?([\d]+)"?/igm.exec(cfgContent)[1]);
+        let x = parseInt(/custom_viewport_x[\s]*=[\s]*"?([\d]+)"?/igm.exec(cfgContent)[1]);
+        let y = parseInt(/custom_viewport_y[\s]*=[\s]*"?([\d]+)"?/igm.exec(cfgContent)[1]);
+        if (width > 1920 || height > 1080 || x > 800 || y > 400) {
+            console.log('> Rom %s has coordinates to check: w %d h %d x %d y %d', romFile, width, height, x, y);
+            readlineSync.keyInPause();
+        }
+    }
 }
 
 console.log('%i roms processed', romsFiles.length);
