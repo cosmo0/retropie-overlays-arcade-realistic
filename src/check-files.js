@@ -21,7 +21,13 @@ let romsFiles = fs.readdirSync(romsFolder).filter(file => file.endsWith('.cfg') 
 for (let romFile of romsFiles) {
     // get overlay file path
     let cfgContent = fs.readFileSync(path.join(romsFolder, romFile), { encoding: 'utf-8' });
-    let overlayFile = /input_overlay[\s]*=[\s]*(.*\.cfg)/igm.exec(cfgContent)[1]; // extract overlay path
+    let overlayFile = /input_overlay[\s]*=[\s]*"?(.*\.cfg)"?/igm.exec(cfgContent)[1]; // extract overlay path
+
+    if (!overlayFile.startsWith('/opt/retropie/configs/all/retroarch/overlay/arcade-realistic/')) {
+        console.log('> Rom config %s has a wrong overlay path: %s', romFile, overlayFile);
+        readlineSync.keyInPause();
+    }
+
     overlayFile = overlayFile.substring(overlayFile.lastIndexOf('/')); // just the file name
     let packOverlayFile = path.join(overlaysFolder, overlayFile); // concatenate with pack path
 
