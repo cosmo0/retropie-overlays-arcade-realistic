@@ -4,13 +4,13 @@
   "description": "Overlays pack for arcade games in Retropie. This package generates cfg files from existing Mame configs.",
   "main": "src/install.js",
   "dependencies": {
-    "adm-zip": "^0.4.11",
-    "fs-extra": "^5.0.0",
-    "imagemin": "^5.3.1",
-    "imageoptim-cli": "^1.15.4",
-    "readline-sync": "^1.4.7",
-    "sharp": "^0.19.0",
-    "xml2js": "^0.4.19"
+    "adm-zip": "^0.5.3",
+    "fs-extra": "^9.1.0",
+    "imagemin": "^7.0.1",
+    "imageoptim-cli": "^3.0.2",
+    "readline-sync": "^1.4.10",
+    "sharp": "^0.27.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {},
   "scripts": {},
