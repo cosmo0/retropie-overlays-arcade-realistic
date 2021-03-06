@@ -6,6 +6,7 @@ var xml2js = require('xml2js');
 var sharp = require('sharp');
 var admzip = require('adm-zip');
 var imagemin = require('imagemin');
+const { kill } = require('process');
 
 /**************************************************
 * MAME ARTWORK PACK IMPORTER
@@ -111,6 +112,15 @@ let requests = files.reduce((promisechain, file, index) => {
             var bezelFile = layout.mamelayout.element.map(function(element, idx) {
                 for (var b = 0; b < view.bezel.length; b++) {
                     if (element.image && element.$.name === view.bezel[b].$.element) {
+                        // check that bezel starts at 0,0
+                        if (view.bezel[b].bounds[0].$.x != '0' || view.bezel[b].bounds[0].$.y != '0') {
+                            if (!readlineSync.keyInYNStrict('Bezel has a x/y != 0. Continue?')) {
+                                kill(0);
+                            }
+                        } else {
+                            console.log(game + ' bounds ok');
+                        }
+
                         return element.image[0].$.file;
                     }
                 }
@@ -148,9 +158,12 @@ let requests = files.reduce((promisechain, file, index) => {
                 // make sure the image is resized in 1080p
                 if (meta.width > 1920 || meta.height > 1080) {
                     console.log(game + ' resizing the image...');
+
                     return img
-                        .resize(1920, 1080)
-                        .crop(sharp.strategy.center)
+                        .resize(1920, 1080, {
+                            fit: "cover",
+                            position: "center"
+                        })
                         .toBuffer();
                 }
                 
