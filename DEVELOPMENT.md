@@ -10,17 +10,17 @@ Example of a bare-bone LAY file:
 
 ````xml
 <mamelayout version="2">
-	<element name="foo">
-		<image file="foobar_overlay.png" />
-	</element>
-	<view name="FooBar">
-		<bezel element="foo">
-			<bounds x="0" y="0" width="1280" height="720" />
-		</bezel>
-		<screen index="0">
-			<bounds x="232" y="54" width="816" height="612" />
-		</screen> 
-	</view>
+  <element name="foo">
+    <image file="foobar_overlay.png" />
+  </element>
+  <view name="FooBar">
+    <bezel element="foo">
+      <bounds x="0" y="0" width="1280" height="720" />
+    </bezel>
+    <screen index="0">
+      <bounds x="232" y="54" width="816" height="612" />
+    </screen> 
+  </view>
 </mamelayout>
 ````
 
