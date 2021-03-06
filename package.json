@@ -5,6 +5,7 @@
   "main": "src/install.js",
   "dependencies": {
     "adm-zip": "^0.5.3",
+    "canvas": "^2.7.0",
     "fs-extra": "^9.1.0",
     "imagemin": "^7.0.1",
     "imageoptim-cli": "^3.0.2",
@@ -12,7 +13,6 @@
     "sharp": "^0.27.2",
     "xml2js": "^0.4.23"
   },
-  "devDependencies": {},
   "scripts": {},
   "repository": {
     "type": "git",

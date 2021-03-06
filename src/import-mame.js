@@ -6,7 +6,8 @@ var xml2js = require('xml2js');
 var sharp = require('sharp');
 var admzip = require('adm-zip');
 var imagemin = require('imagemin');
-const { kill } = require('process');
+const { kill, off } = require('process');
+const { createCanvas, loadImage } = require('canvas');
 
 /**************************************************
 * MAME ARTWORK PACK IMPORTER
@@ -108,6 +109,9 @@ let requests = files.reduce((promisechain, file, index) => {
                 view = layout.mamelayout.view[0];
             }
     
+            // source resolution = bezel x/y/w/h (=> error if x/y != 0)
+            var sourceResolution = { width: 1920, height: 1080 };
+
             // get bezel file name
             var bezelFile = layout.mamelayout.element.map(function(element, idx) {
                 for (var b = 0; b < view.bezel.length; b++) {
@@ -118,6 +122,7 @@ let requests = files.reduce((promisechain, file, index) => {
                                 kill(0);
                             }
                         } else {
+                            sourceResolution = view.bezel[b].bounds[0].$;
                             console.log(game + ' bounds ok');
                         }
 
@@ -128,13 +133,87 @@ let requests = files.reduce((promisechain, file, index) => {
             
             console.log(game + ' image: ' + bezelFile);
     
-            // get the screen position
+            // ==================== COMPUTE POSITIONS ====================
+
+            // get x/y/w/h from screen.bounds = get base screen position
             var screenPos = view.screen[0].bounds[0].$;
+            screenPos.x = Number(screenPos.x);
+            screenPos.y = Number(screenPos.y);
+            screenPos.width = Number(screenPos.width);
+            screenPos.height = Number(screenPos.height);
+
+            console.log(game + ' source coordinates: ' + JSON.stringify(screenPos));
     
             // compute orientation
             var orientation = parseInt(screenPos.width) > parseInt(screenPos.height) ? "horizontal" : "vertical";
             console.log(game + ' orientation: ' + orientation);
     
+            // compute original center: cx = x + (w / 2) => (cx: 640, cy: 360)
+            var cx = screenPos.x + (screenPos.width / 2);
+            var cy = screenPos.y + (screenPos.height / 2);
+
+            // load cfg file, if there is one
+            let cfgFile = path.join(source, game + '.cfg');
+            if (fs.existsSync(cfgFile)) {
+                console.log(game + ' has a cfg file');
+
+                parser.parseString(fs.readFileSync(cfgFile), function (parseErr, cfg) {
+                    if (parseErr) reject(parseErr);
+
+                    const screen = cfg.mameconfig.system[0].video[0].screen[0];
+                    if (!screen) {
+                        console.log(game + ' has a CFG file without screen offset');
+                        return;
+                    }
+
+                    const offset = {
+                        hoffset: Number(screen.$.hoffset),
+                        voffset: Number(screen.$.voffset),
+                        hstretch: Number(screen.$.hstretch),
+                        vstretch: Number(screen.$.vstretch)
+                    };
+
+                    console.log(game + ' offset: ' + JSON.stringify(offset));
+
+                    // multiply w/h by stretch = get target screen size, centered => NEW DIMENSIONS AT SOURCE RESOLUTION
+                    if (offset.hstretch) { screenPos.width = screenPos.width * offset.hstretch; }
+                    if (offset.vstretch) { screenPos.height = screenPos.height * offset.vstretch; }
+
+                    // compute new base x/y (top/left): x = cx - (w / 2)
+                    screenPos.x = cx - (screenPos.width / 2);
+                    screenPos.y = cy - (screenPos.height / 2);
+
+                    // apply offset: x = x + ((hres / w * h) * hoffset) ; y = y + (vres * voffset) => NEW POSITION at source resolution
+                    if (offset.hoffset) {
+                        if (orientation == "horizontal") {
+                            screenPos.x = screenPos.x = ((sourceResolution.width / screenPos.width * screenPos.height) * offset.hoffset);
+                        } else {
+                            screenPos.x = screenPos.x + (sourceResolution.width * offset.hoffset);
+                        }
+                    }
+
+                    if (offset.voffset) {
+                        if (orientation == "horizontal") {
+                            screenPos.y = screenPos.y = (sourceResolution.height * offset.voffset);
+                        } else {
+                            screenPos.y = screenPos.y + ((sourceResolution.height / screenPos.height * screenPos.width) * offset.voffset);
+                        }
+                    }
+                });
+            } else {
+                console.log(game + ' doesnt have a cfg file');
+            }
+
+            // apply target resolution (x * 1920 / 1280) => NEW COORDINATES IN 1080p
+            screenPos.x = Math.round(screenPos.x * 1920 / sourceResolution.width);
+            screenPos.width = Math.round(screenPos.width * 1920 / sourceResolution.width);
+            screenPos.y = Math.round(screenPos.y * 1080 / sourceResolution.height);
+            screenPos.height = Math.round(screenPos.height * 1080 / sourceResolution.height);
+
+            console.log(game + ' target coordinates: ' + JSON.stringify(screenPos));
+
+            // ==================== EXTRACT BEZEL IMAGE ====================
+
             // extract the bezel image
             console.log(game + ' extracting image...');
             var outputImage = path.join(outputOvl, game + '.png');
@@ -158,7 +237,6 @@ let requests = files.reduce((promisechain, file, index) => {
                 // make sure the image is resized in 1080p
                 if (meta.width > 1920 || meta.height > 1080) {
                     console.log(game + ' resizing the image...');
-
                     return img
                         .resize(1920, 1080, {
                             fit: "cover",
@@ -166,10 +244,30 @@ let requests = files.reduce((promisechain, file, index) => {
                         })
                         .toBuffer();
                 }
-                
+
                 console.log(game + ' image is OK');
                 return img.toBuffer();
+            }).then((buffer) => {
+                // ==================== DEBUG: DRAW TARGET POSITION ====================
+                loadImage(buffer)
+                .then((imgCanvas) => {
+                    // draw a rectangle where the screen will be
+                    const canvas = createCanvas(1920, 1080);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(imgCanvas, 0, 0, 1920, 1080);
+                    ctx.strokeStyle = 'rgb(255,0,0)';
+                    ctx.lineWidth = 5;
+                    ctx.strokeRect(screenPos.x, screenPos.y, screenPos.width, screenPos.height);
+                    // save in debug folder
+                    let debugFolder = path.join(outputOvl, 'debug');
+                    fs.ensureDirSync(debugFolder);
+                    fs.writeFileSync(path.join(debugFolder, game + '.png'), canvas.toBuffer());
+                });
+                
+                return buffer;
             }).then(function (buffer) {
+                // ==================== OUTPUT OVERLAY ====================
+
                 // optimize the file to reduce the size
                 console.log(game + ' optimizing the image...');
                 imagemin.buffer(buffer)
