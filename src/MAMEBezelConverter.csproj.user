@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <StartAction>Project</StartAction>
+    <StartArguments>-s ./source -r ./output/roms -o ./output/overlay -d ./output/debug --template-game ../src/templates/game.cfg --template-overlay ../src/templates/overlay.cfg</StartArguments>
+    <StartWorkingDirectory>..\tmp</StartWorkingDirectory>
+    <ExternalConsole>true</ExternalConsole>
+  </PropertyGroup>
+</Project>
