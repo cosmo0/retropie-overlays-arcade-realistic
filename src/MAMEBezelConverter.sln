@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.809.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAMEBezelConverter", "MAMEBezelConverter.csproj", "{6173C208-CBB5-48AC-AE99-E8A524F44683}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6173C208-CBB5-48AC-AE99-E8A524F44683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6173C208-CBB5-48AC-AE99-E8A524F44683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6173C208-CBB5-48AC-AE99-E8A524F44683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6173C208-CBB5-48AC-AE99-E8A524F44683}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {515C269D-1AA2-43AD-9387-93E1E7121672}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+	EndGlobalSection
+EndGlobal

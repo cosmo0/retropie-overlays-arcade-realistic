@@ -1,3 +1,13 @@
+# Mac
 .DS_Store
+
+# Nodejs
 node_modules/
+
+# temp
 tmp/
+
+# VS artifacts
+**/obj/
+**/bin/
+**/.vs/
