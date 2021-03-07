@@ -30,10 +30,3 @@ It's a mix between [John Merit](https://forums.libretro.com/t/arcade-overlays/40
 The compilation is "complete", and does not care whether the games works on your raspberry pi, needs special hardware (lightgun...), does not work in MAME2003, etc.
 
 However, if a parent game does not work in MAME but one of its clone does, the config files will exist for both games; that's why there seem to be duplicates and clones.
-
-## Development & import
-
-* Copy the zip files of MAME overlays in `tmp/source`
-* Run `node src/import-mame.js`
-* For each image file in `tmp/output/overlay`, measure the screen coordinates, and report them in the corresponding file in `tmp/output/roms`
-* Copy the overlay files in `overlays/configs` and the rom configs in `overlays/roms`
