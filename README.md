@@ -13,7 +13,7 @@ I did mostly nothing except move files around and mess with config files. If you
 
 If one of your file is here and you want me to remove it, or want to be credited, please [file an issue](https://github.com/cosmo0/retropie-arcade-overlays/issues).
 
-## Realistic overlays (554 games)
+## Realistic overlays (921 games)
 
 Compilation of "realistic looking" arcade overlays for many games.
 
@@ -22,11 +22,3 @@ It makes your TV look like you're in front of an arcade cabinet. They have scree
 ## Installation
 
 Use the [Retropie Arcade Manager](https://github.com/cosmo0/retropie-arcade-manager/) tool to install these overlays.
-
-## Contents details
-
-It's a mix between [John Merit](https://forums.libretro.com/t/arcade-overlays/4084/), [OrionsAngel](https://www.youtube.com/orionsangel) and [Derek Moore](https://www.youtube.com/user/oldstarscream) works.
-
-The compilation is "complete", and does not care whether the games works on your raspberry pi, needs special hardware (lightgun...), does not work in MAME2003, etc.
-
-However, if a parent game does not work in MAME but one of its clone does, the config files will exist for both games; that's why there seem to be duplicates and clones.
