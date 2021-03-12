@@ -12,5 +12,6 @@ Here are a few places I picked images from. I have not used all of them.
 - [Pack by Simbz33](https://github.com/simbz33/retropie-overlay)
 - [Pack by Derek Moore](https://www.youtube.com/user/oldstarscream)
 - [Pack by BatBad](http://simbabbad.blogspot.fr/2016/12/artworks-overlays-MAME-RetroArch-WinUAE-1080p.html)
+- [Packs by Duimon](https://github.com/Duimon/Arcade-Originals)
 
 Usage of these packs in a commercial product are strictly forbidden.
